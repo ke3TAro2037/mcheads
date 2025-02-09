@@ -50,6 +50,10 @@ jobs:
       working-directory: android
       run: chmod +x gradlew
 
+    - name: Create local.properties  # 🛠️ 追加
+      working-directory: android
+      run: echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
+
     - name: Build APK
       working-directory: android
       run: ./gradlew assembleRelease
@@ -58,4 +62,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: app-release.apk
-        path: android/app/build/outputs/apk/release/app-release.apk
+        path: android/app/build/outputs/a
