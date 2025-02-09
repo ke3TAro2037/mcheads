@@ -21,22 +21,16 @@ jobs:
       with:
         distribution: 'adopt' # または 'temurin'
         java-version: 11
-        java-package: jdk
-        check-latest: false
-        server-id: github
-        server-username: ${{ github.actor }}
-        server-password: ${{ secrets.GITHUB_TOKEN }}
-        overwrite-settings: true
 
     - name: Install Android SDK
       run: |
         sudo apt-get update
         sudo apt-get install -y wget tar unzip
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d $HOME
-        mkdir -p $ANDROID_HOME/cmdline-tools/latest
-        mv $HOME/cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest
-        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-30" "build-tools;30.0.3"
+        unzip cmdline-tools.zip -d $HOME/cmdline-tools
+        sudo mkdir -p /usr/local/lib/android/sdk/cmdline-tools/latest
+        sudo cp -r $HOME/cmdline-tools/cmdline-tools/* /usr/local/lib/android/sdk/cmdline-tools/latest/
+        /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/usr/local/lib/android/sdk "platforms;android-30" "build-tools;30.0.3"
 
     - name: Build APK
       run: ./gradlew assembleRelease
