@@ -38,9 +38,10 @@ jobs:
         if [ ! -f "gradlew" ]; then
           echo "gradlew not found. Downloading..."
           wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
-          unzip gradle-7.5-bin.zip
-          mv gradle-7.5 gradle
-          ./gradle/bin/gradle wrapper
+          unzip gradle-7.5-bin.zip -d gradle
+          export GRADLE_HOME=$PWD/gradle/gradle-7.5
+          export PATH=$GRADLE_HOME/bin:$PATH
+          gradle wrapper
         else
           echo "gradlew already exists."
         fi
