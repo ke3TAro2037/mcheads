@@ -3,11 +3,12 @@ name: Android CD
 #発火条件
 on:
   #ソースをmasterブランチにプッシュする時
-  push:
-    branches: [ master ]
+  #push:
+  #  branches: [ main ]
   #他のブランチをmasterブランチにマッジする時
-  pull_request:
-    branches: [ master ]
+  #pull_request:
+  #  branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   build:
