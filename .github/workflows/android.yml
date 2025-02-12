@@ -47,3 +47,23 @@ jobs:
       with:
         name: release-apk
         path: build/app/outputs/apk/release/app-release.apk
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: flutter-apk
+          path: ./deploy
+
+      - name: Upload to FTP Server
+        uses: appleboy/ftp-action@master
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: 21  # FTP のデフォルトポート
+          local-dir: "./deploy"
+          remote-dir: "/public_html/api.made-by-free.com/mcheads/releases"
