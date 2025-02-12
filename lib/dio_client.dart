@@ -38,7 +38,7 @@ class DioClient {
     try {
       final response = await dio.get(path, queryParameters: queryParameters);
       return response;
-    } on DioException catch (e) {
+    } on DioException {
       rethrow; // エラーを上位に投げる
     }
   }

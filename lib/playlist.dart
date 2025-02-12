@@ -299,7 +299,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavScreen(),
       body: ReorderableListView(
         // リストアイテムの順番を変更するためのコールバック
         onReorder: (oldIndex, newIndex

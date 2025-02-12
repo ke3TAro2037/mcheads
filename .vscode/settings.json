@@ -2,5 +2,11 @@
     "IDX.aI.enableInlineCompletion": false,
     "IDX.aI.enableCodebaseIndexing": true,
     "java.configuration.updateBuildConfiguration": "interactive",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "dart.enableSdkFormatter": false,
+    "dart.analysisExcludedFolders": [
+        "build",
+        ".dart_tool"
+    ],
+    "dart.showTodos": false
 }
