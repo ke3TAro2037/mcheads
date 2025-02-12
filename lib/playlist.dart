@@ -1,12 +1,4 @@
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2477146349.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1164585908.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:373985153.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1357309959.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:868958954.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3715288444.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:4015787523.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:4176801685.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3391646651.
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'nav.dart';
