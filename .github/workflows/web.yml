@@ -67,4 +67,4 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: "./web-deploy/"
-          server-dir: "/public_html/api.made-by-free.com/mcheads/web"
+          server-dir: "/public_html/api.made-by-free.com/mcheads/web/"
