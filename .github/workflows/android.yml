@@ -57,7 +57,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-release
+          name: app-release.apk
           path: ./deploy
 
       - name: Upload to FTP Server
