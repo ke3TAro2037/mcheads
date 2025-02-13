@@ -59,11 +59,10 @@ jobs:
           path: ./deploy
 
       - name: Upload to FTP Server
-        uses: appleboy/ftp-action@master
+        uses: SamKirkland/FTP-Deploy-Action@v4.2.0
         with:
-          host: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          port: 21  # FTP のデフォルトポート
           local-dir: "./deploy"
-          remote-dir: "/public_html/api.made-by-free.com/mcheads/releases"
+          server-dir: "/public_html/api.made-by-free.com/mcheads/releases"
