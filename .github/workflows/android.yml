@@ -55,7 +55,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: flutter-apk
+          name: app-release
           path: ./deploy
 
       - name: Upload to FTP Server
