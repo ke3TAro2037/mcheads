@@ -57,8 +57,9 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-release.apk
-          path: ./deploy
+          name: release-apk
+          #path: ./deploy
+          path: build/app/outputs/apk/release/app-release.apk
 
       - name: Upload to FTP Server
         uses: SamKirkland/FTP-Deploy-Action@v4.2.0
