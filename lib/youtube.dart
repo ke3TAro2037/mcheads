@@ -17,16 +17,14 @@ class _YoutubeWebViewState extends State<YoutubeWebView> {
     super.initState();
     // WebViewの初期化
     _controller = WebViewController();
-    _controller
-        .setJavaScriptMode(JavaScriptMode.unrestricted); // JavaScriptを有効にする
-    _controller.loadRequest(Uri.parse(
-        'https://m.youtube.com/')); // YouTube動画URLを読み込む
+    _controller.setJavaScriptMode(JavaScriptMode.unrestricted); // JavaScriptを有効にする
+    _controller.loadRequest(Uri.parse('https://m.youtube.com/')); // YouTube動画URLを読み込む
   }
 
   // 現在のURLを取得して別ページに渡す
   void _copyUrlAndNavigate() async {
     String url = await _controller.currentUrl() ?? '';
-    if (url.isNotEmpty) {
+    if (url.isNotEmpty && mounted) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -34,6 +32,11 @@ class _YoutubeWebViewState extends State<YoutubeWebView> {
         ),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

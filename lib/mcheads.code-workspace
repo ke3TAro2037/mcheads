@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"dart.enableSdkFormatter": false,
+		"dart.showTodos": false
+	}
+}

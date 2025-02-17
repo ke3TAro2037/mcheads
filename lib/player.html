@@ -642,51 +642,7 @@
             PreviousVideoId = playlist[previous_playing_i]['youtube_video_id'];
 
             console.log(PreviousVideoId);
-        } function set_from_playlist() {
-            //プレイリスト内の最大配列添字
-            playing_max = playlist.length - 1;
-
-            if (playing_i < 0) {
-                playing_i = playing_max;
-            }
-
-            if (playing_i > playing_max) {
-                playing_i = 0;
-            }
-
-            console.log(playing_i);
-
-            if (shuffle) {
-                //シャッフルONのとき
-                playing_i = Math.floor(Math.random() * playlist.length);
-            }
-
-            if (playing_i == playing_max) {
-                //最後の動画のとき
-                previous_playing_i = playing_i - 1;
-                next_playing_i = 0;
-            } else if (playing_i == 0) {
-                //最初の動画のとき
-                previous_playing_i = playing_max;
-                next_playing_i = playing_i + 1;
-            } else {
-                previous_playing_i = playing_i - 1;
-                next_playing_i = playing_i + 1;
-            }
-
-            console.log(previous_playing_i, playing_i, next_playing_i);
-
-            init_seconds = playlist[playing_i]['start'];
-            next_init_seconds = playlist[next_playing_i]['start'];
-            previous_init_seconds = playlist[previous_playing_i]['start'];
-            end_seconds = playlist[playing_i]['end'];
-            NextVideoId = playlist[next_playing_i]['youtube_video_id'];
-            CurrentVideoId = playlist[playing_i]['youtube_video_id'];
-            PreviousVideoId = playlist[previous_playing_i]['youtube_video_id'];
-
-            console.log(PreviousVideoId);
         }
-
 
         function playlistTable() {
 

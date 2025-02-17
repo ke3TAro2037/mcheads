@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
     futurePlaylists = get_playlists();
   }
 
+/*
   Future<List<dynamic>> get_playlists() async {
     try {
       var headers = {
@@ -29,8 +30,34 @@ class _HomePageState extends State<HomePage> {
       var response = await Dio().request(
         'http://api.made-by-free.com/mcheads/playlist.php?mode=list',
         options: Options(
+          method: 'POST',
+          headers: headers, 
+        ),
+        data: data,
+      );
+
+      List<dynamic> playlistData = response.data['data'];
+      print(playlistData);
+
+      return response.data['data'];
+    } catch (e) {
+      throw Exception('API request failed: $e');
+    }
+  }
+  */
+
+  Future<List<dynamic>> get_playlists() async {
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer MBFSRV'
+      };
+      var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
+      var response = await Dio().request(
+        'http://api.made-by-free.com/mcheads/playlist.php?method=get&mode=list',
+        options: Options(
           method: 'GET',
-          headers: headers,
+          headers: headers, 
         ),
         data: data,
       );

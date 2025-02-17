@@ -274,6 +274,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     );
   }
 
+    // ...existing code...
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -284,7 +286,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             children: [
               Expanded(child: Text(currentPlaylistName)), // プレイリスト名を左寄せ
               IconButton(
-                icon: const Icon(Icons.edit),
+                icon: const Icon(Icons.edit, color: Colors.white,),
                 onPressed: () => _showEditPopup(context),
               ),
             ],
@@ -299,38 +301,59 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           ),
         ),
       ),
-      body: ReorderableListView(
-        // リストアイテムの順番を変更するためのコールバック
-        onReorder: (oldIndex, newIndex
-) {
-          setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            final item = videoList.removeAt(oldIndex);
-            videoList.insert(newIndex, item);
-            //並び替え後のvideoIdIntsを更新する
-            final itemId = videoIdInts.removeAt(oldIndex);
-            videoIdInts.insert(newIndex, itemId);
-
-            //並び替えられたvideoIdIntsをAPIに送る
-            updatePlaylistOrder(videoIdInts);
-          });
-        },
-        children: List.generate(
-          videoList.length,
-          (index) {
-            final video = videoList[index];
-            return VideoListItem(
-              key: ValueKey(index), // ユニークなキーを指定
-              title: video['title']!,
-              thumbnailUrl: video['thumbnail']!,
-            );
-          },
-        ),
+      body: Column(
+        children: [
+          // 再生ボタンを追加
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // 再生ボタンの処理を追加
+                print('Play button pressed');
+              },
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+              ),
+              child: Icon(Icons.play_arrow, size: 50),
+            ),
+          ),
+          Expanded(
+            child: ReorderableListView(
+              // リストアイテムの順番を変更するためのコールバック
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  final item = videoList.removeAt(oldIndex);
+                  videoList.insert(newIndex, item);
+                  //並び替え後のvideoIdIntsを更新する
+                  final itemId = videoIdInts.removeAt(oldIndex);
+                  videoIdInts.insert(newIndex, itemId);
+  
+                  //並び替えられたvideoIdIntsをAPIに送る
+                  updatePlaylistOrder(videoIdInts);
+                });
+              },
+              children: List.generate(
+                videoList.length,
+                (index) {
+                  final video = videoList[index];
+                  return VideoListItem(
+                    key: ValueKey(index), // ユニークなキーを指定
+                    title: video['title']!,
+                    thumbnailUrl: video['thumbnail']!,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
+  // ...existing code...
 }
 
 class VideoListItem extends StatelessWidget {

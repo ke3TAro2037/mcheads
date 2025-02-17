@@ -35,8 +35,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      // 右上に表示される"debug"ラベルを消す
-      debugShowCheckedModeBanner: false,
 
       // アプリ名
       title: 'MCヘッズ',
@@ -46,7 +44,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
-      home: const BottomNavScreen(),
+      home: BottomNavScreen(),
     );
   }
 }

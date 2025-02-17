@@ -63,9 +63,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         onPageChanged: _onPageChanged,
         children: <Widget>[
 
-          const HomePage(),
-          DraftList(playlistId: 'playlist_1'),
-          const YoutubeWebView(),
+          HomePage(),
+          TabBarApp(),
+          YoutubeWebView(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
