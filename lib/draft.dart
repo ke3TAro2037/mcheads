@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/home.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/setting/account.dart';
 import 'package:myapp/tabbar/my.dart';
 import 'package:myapp/tabbar/trend.dart';
 
@@ -15,7 +16,10 @@ class TabBarApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: ThemeData(useMaterial3: true), home: const TabBarExample());
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: const TabBarExample()
+      );
   }
 }
 
@@ -30,6 +34,17 @@ class TabBarExample extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('保存された試合'),
+          actions: [
+    IconButton(
+      icon: const Icon(Icons.settings),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SettingScreen()),
+        );
+      },
+    ),
+  ],
           bottom: const TabBar(
             dividerColor: Colors.transparent,
             tabs: <Widget>[

@@ -1,11 +1,3 @@
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2039704219.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3856212404.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1184554933.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3928805522.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:255178567.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:4271547447.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3398354550.
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -54,6 +46,7 @@ class _WebViewAppState extends State<WebViewApp> {
     String fullHtml =
         await rootBundle.loadString('lib/player.html'); // assets から HTML を読み込む
     String allPlaylist = await get_all_playlist(playlistId);
+    allPlaylist = '[{"youtube_video_id": "W4euZ_wd0LI", "video_name": "Test Video 1", "start": 250, "end": 390}, {"youtube_video_id": "fTXtUeA7O1I", "video_name": "Test Video 2", "start": 250, "end": 390}]';
     String newText =
         fullHtml.replaceAll("ReplaceYourPlaylistArrayHere", allPlaylist);
     print(allPlaylist);

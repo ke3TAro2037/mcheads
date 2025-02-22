@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'url.dart'; // URLページに遷移するためのインポート
@@ -11,19 +12,22 @@ class YoutubeWebView extends StatefulWidget {
 
 class _YoutubeWebViewState extends State<YoutubeWebView> {
   late WebViewController _controller;
+  final TextEditingController _urlController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // WebViewの初期化
-    _controller = WebViewController();
-    _controller.setJavaScriptMode(JavaScriptMode.unrestricted); // JavaScriptを有効にする
-    _controller.loadRequest(Uri.parse('https://m.youtube.com/')); // YouTube動画URLを読み込む
+    if (!kIsWeb) {
+      // WebViewの初期化 (Web版ではない場合)
+      _controller = WebViewController();
+      _controller.setJavaScriptMode(JavaScriptMode.unrestricted); // JavaScriptを有効にする
+      _controller.loadRequest(Uri.parse('https://m.youtube.com/')); // YouTube動画URLを読み込む
+    }
   }
 
   // 現在のURLを取得して別ページに渡す
   void _copyUrlAndNavigate() async {
-    String url = await _controller.currentUrl() ?? '';
+    String url = _urlController.text;
     if (url.isNotEmpty && mounted) {
       Navigator.push(
         context,
@@ -36,6 +40,7 @@ class _YoutubeWebViewState extends State<YoutubeWebView> {
 
   @override
   void dispose() {
+    _urlController.dispose();
     super.dispose();
   }
 
@@ -43,12 +48,29 @@ class _YoutubeWebViewState extends State<YoutubeWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('試合を選択してください'),
+        title: const Text('YouTube URLを入力してください'),
       ),
-      body: WebViewWidget(controller: _controller), // WebViewにコントローラを渡す
-      floatingActionButton: FloatingActionButton(
-        onPressed: _copyUrlAndNavigate, // ボタンが押された時にURLをコピーして遷移
-        child: const Icon(Icons.done),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _urlController,
+              decoration: const InputDecoration(
+                labelText: 'YouTube URLを入力してください',
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (!kIsWeb)
+              Expanded(
+                child: WebViewWidget(controller: _controller), // WebViewにコントローラを渡す
+              ),
+            ElevatedButton(
+              onPressed: _copyUrlAndNavigate,
+              child: const Text('送信'),
+            ),
+          ],
+        ),
       ),
     );
   }

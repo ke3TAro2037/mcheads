@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/main.dart';
+import 'package:myapp/setting/account.dart';
+import 'package:myapp/test.dart';
 import 'playlist.dart';
 import 'package:dio/dio.dart';
+
+
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: const HomePage()
+      );
+  }
+}
+
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
+  
 }
+
 
 class _HomePageState extends State<HomePage> {
   late Future<List<dynamic>> futurePlaylists;
@@ -19,38 +40,11 @@ class _HomePageState extends State<HomePage> {
     futurePlaylists = get_playlists();
   }
 
-/*
   Future<List<dynamic>> get_playlists() async {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
-      };
-      var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
-      var response = await Dio().request(
-        'http://api.made-by-free.com/mcheads/playlist.php?mode=list',
-        options: Options(
-          method: 'POST',
-          headers: headers, 
-        ),
-        data: data,
-      );
-
-      List<dynamic> playlistData = response.data['data'];
-      print(playlistData);
-
-      return response.data['data'];
-    } catch (e) {
-      throw Exception('API request failed: $e');
-    }
-  }
-  */
-
-  Future<List<dynamic>> get_playlists() async {
-    try {
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
       var response = await Dio().request(
@@ -79,6 +73,17 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false, // 戻るボタンを消す
         title: const Text("MCヘッズ",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        actions: [
+    IconButton(
+      icon: const Icon(Icons.settings),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SettingScreen()),
+        );
+      },
+    ),
+  ],
       ),
       //bottomNavigationBar: const BottomNavScreen(),
       body: SafeArea(

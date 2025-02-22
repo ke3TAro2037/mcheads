@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/main.dart';
 import 'nav.dart';
 
 class PlaylistScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class PlaylistScreen extends StatefulWidget {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
       var response = await Dio().request(
@@ -60,7 +61,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
       var response = await Dio().request(
@@ -112,7 +113,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
       var response = await Dio().request(
@@ -143,7 +144,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       // APIに渡すデータを整形
       var data = {'videos': newOrder};
@@ -172,7 +173,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var response = await Dio().request(
         'http://api.made-by-free.com/mcheads/playlist.php?playlist_name=$newName&playlist_id=${widget.playlistId}',
@@ -200,7 +201,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
 
       var response = await Dio().request(
@@ -250,15 +251,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 },
                 child: const Text('更新'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  deletePlaylist();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // ボタンの背景色を赤に設定
-                ),
-                child: const Text('プレイリストを削除',style: TextStyle(color: Colors.white),),
-              ),
             ],
           ),
           actions: <Widget>[
@@ -282,42 +274,61 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200.0), // AppBarの高さを200pxに設定
         child: AppBar(
-          title: Row(
-            children: [
-              Expanded(child: Text(currentPlaylistName)), // プレイリスト名を左寄せ
-              IconButton(
-                icon: const Icon(Icons.edit, color: Colors.white,),
-                onPressed: () => _showEditPopup(context),
-              ),
-            ],
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(widget.playlistThumbnail), // 画像URL
-                fit: BoxFit.cover,
-              ),
+        title: Row(
+          children: [
+            Expanded(child: Text(currentPlaylistName)), // プレイリスト名を左寄せ
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(widget.playlistThumbnail), // 画像URL
+              fit: BoxFit.cover,
             ),
           ),
         ),
       ),
+      ),
       body: Column(
         children: [
-          // 再生ボタンを追加
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // 再生ボタンの処理を追加
-                print('Play button pressed');
-              },
-              style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(20),
+          // 再生ボタンと編集・削除ボタンを追加
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.edit, color: Colors.black, size: 35),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(15),
+                ),
+                onPressed: () => _showEditPopup(context),
               ),
-              child: Icon(Icons.play_arrow, size: 50),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  // 再生ボタンの処理を追加
+                  print('Play button pressed');
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(20),
+                ),
+                child: Icon(Icons.play_arrow, color: Colors.black, size: 50),
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.purple, size: 35),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(15),
+                ),
+                onPressed: () {
+                  deletePlaylist();
+                },
+              ),
+            ],
           ),
+        ),
           Expanded(
             child: ReorderableListView(
               // リストアイテムの順番を変更するためのコールバック

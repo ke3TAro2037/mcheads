@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-
-
-
-import 'package:flutter/material.dart';
-import 'package:myapp/home.dart';
 import 'package:myapp/main.dart';
-import 'package:myapp/main2.dart';
-
-
 
 class MyScreen extends StatefulWidget {
   const MyScreen({super.key});
@@ -20,22 +12,43 @@ class MyScreen extends StatefulWidget {
 class _MyScreenState extends State<MyScreen> {
   late List<Map<String, String>> videoList = [];
   late List<int> videoIdInts = []; //動画idを管理するList
+  final ScrollController _scrollController = ScrollController();
+  int _currentPage = 1;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_scrollListener);
     fetchPlaylistData();
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isLoading) {
+      _currentPage++;
+      fetchPlaylistData();
+    }
+  }
+
   Future<void> fetchPlaylistData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
       var response = await Dio().request(
-        'http://api.made-by-free.com/mcheads/playlist.php?mode=draft',
+        'http://api.made-by-free.com/mcheads/playlist.php?mode=draft&page=$_currentPage',
         options: Options(
           method: 'GET',
           headers: headers,
@@ -67,7 +80,7 @@ class _MyScreenState extends State<MyScreen> {
         }
 
         setState(() {
-          videoList = fetchedVideos;
+          videoList.addAll(fetchedVideos);
         });
       } else {
         print('API request failed: ${response.statusCode}');
@@ -75,6 +88,10 @@ class _MyScreenState extends State<MyScreen> {
       }
     } catch (e) {
       throw Exception('API request failed: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -82,7 +99,7 @@ class _MyScreenState extends State<MyScreen> {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer MBFSRV'
+        'Authorization': 'Bearer $globalToken'
       };
       var response = await Dio().request(
         'http://api.made-by-free.com/mcheads/video.php?video_id=$videoId',
@@ -98,9 +115,8 @@ class _MyScreenState extends State<MyScreen> {
       return {
         'title': videoData['video_name'] ?? 'No Title',
         'thumbnail':
-            '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ??
+            '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ?? 
                 'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg',
-      
       };
     } catch (e) {
       throw Exception('API request failed: $e');
@@ -114,8 +130,12 @@ class _MyScreenState extends State<MyScreen> {
         automaticallyImplyLeading: false, // 戻るボタンを消す
       ),
       body: ListView.builder(
-        itemCount: videoList.length,
+        controller: _scrollController,
+        itemCount: videoList.length + (_isLoading ? 1 : 0),
         itemBuilder: (context, index) {
+          if (index == videoList.length) {
+            return Center(child: CircularProgressIndicator());
+          }
           final video = videoList[index];
           return VideoListItem(
             key: ValueKey(index), // ユニークなキーを指定
