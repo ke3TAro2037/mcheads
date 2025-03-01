@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:myapp/video.dart';
+
 import 'draft.dart';
 import './home.dart';
 import 'youtube.dart';
@@ -105,7 +107,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         children: <Widget>[
           HomeScreen(),
           TabBarApp(),
-          WebViewApp(),
+          VideoEditPage(),
         ],
       ),
       backgroundColor: Colors.white,

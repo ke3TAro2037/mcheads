@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/setting/login.dart';
 
-import 'register.dart';
+import 'update.dart';
 import 'login.dart';
 
 class SettingScreen extends StatelessWidget {

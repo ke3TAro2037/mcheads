@@ -3,6 +3,68 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'url.dart'; // URLページに遷移するためのインポート
 
+
+
+
+// Flutter Webの場合は、input要素を使ってYouTubeのURLを入力する
+class ImportUrl extends StatelessWidget {
+  const ImportUrl({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return kIsWeb ? const UrlInputPage() : const YoutubeWebView();
+  }
+}
+
+
+
+class UrlInputPage extends StatelessWidget {
+  const UrlInputPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController _urlController = TextEditingController();
+
+    void _copyUrlAndNavigate() {
+      String url = _urlController.text;
+      if (url.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => cutWebView(url: url),
+          ),
+        );
+      }
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('YouTube URLを入力してください'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _urlController,
+              decoration: const InputDecoration(
+                labelText: 'YouTube URLを入力してください',
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _copyUrlAndNavigate,
+              child: const Text('送信'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
 class YoutubeWebView extends StatefulWidget {
   const YoutubeWebView({super.key});
 
