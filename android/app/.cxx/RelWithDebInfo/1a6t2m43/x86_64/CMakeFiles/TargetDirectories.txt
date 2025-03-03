@@ -1,0 +1,2 @@
+C:/Users/ke3ta/Documents/GitHub/mcheads/android/app/.cxx/RelWithDebInfo/1a6t2m43/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/ke3ta/Documents/GitHub/mcheads/android/app/.cxx/RelWithDebInfo/1a6t2m43/x86_64/CMakeFiles/rebuild_cache.dir
