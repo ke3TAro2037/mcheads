@@ -21,7 +21,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  Future<String?> _getToken() async {    
+  Future<String?> _getToken() async {
     globalToken = await storage.read(key: 'token');
     return await storage.read(key: 'token');
   }

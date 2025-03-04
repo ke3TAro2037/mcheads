@@ -19,8 +19,8 @@ class _YoutubeWebViewState extends State<YoutubeWebView> {
     _controller = WebViewController();
     _controller
         .setJavaScriptMode(JavaScriptMode.unrestricted); // JavaScriptを有効にする
-    _controller.loadRequest(Uri.parse(
-        'https://m.youtube.com/')); // YouTube動画URLを読み込む
+    _controller
+        .loadRequest(Uri.parse('https://m.youtube.com/')); // YouTube動画URLを読み込む
   }
 
   // 現在のURLを取得して別ページに渡す

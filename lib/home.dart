@@ -5,30 +5,22 @@ import 'package:myapp/test.dart';
 import 'playlist.dart';
 import 'package:dio/dio.dart';
 
-
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: const HomePage()
-      );
+        theme: ThemeData(useMaterial3: true), home: const HomePage());
   }
 }
-
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
-  
 }
-
 
 class _HomePageState extends State<HomePage> {
   late Future<List<dynamic>> futurePlaylists;
@@ -51,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         'http://api.made-by-free.com/mcheads/playlist.php?method=get&mode=list',
         options: Options(
           method: 'GET',
-          headers: headers, 
+          headers: headers,
         ),
         data: data,
       );
@@ -74,16 +66,16 @@ class _HomePageState extends State<HomePage> {
         title: const Text("MCヘッズ",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         actions: [
-    IconButton(
-      icon: const Icon(Icons.settings),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SettingScreen()),
-        );
-      },
-    ),
-  ],
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingScreen()),
+              );
+            },
+          ),
+        ],
       ),
       //bottomNavigationBar: const BottomNavScreen(),
       body: SafeArea(
@@ -131,7 +123,10 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => PlaylistScreen(
-                                        playlistId: demoProducts[index].id, playlistName: demoProducts[index].title, playlistThumbnail: demoProducts[index].images[0],
+                                        playlistId: demoProducts[index].id,
+                                        playlistName: demoProducts[index].title,
+                                        playlistThumbnail:
+                                            demoProducts[index].images[0],
                                       ),
                                     ),
                                   );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -8,7 +7,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isMinimized = false;
-  double _bottomSheetHeight = 1.0;  // 全画面の高さ管理
+  double _bottomSheetHeight = 1.0; // 全画面の高さ管理
 
   void _toggleMinimize() {
     setState(() {

@@ -113,7 +113,7 @@ class _MyScreenState extends State<MyScreen> {
       return {
         'title': videoData['video_name'] ?? 'No Title',
         'thumbnail':
-            '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ?? 
+            '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ??
                 'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg',
         'video_id': videoData['video_id'].toString() ?? '',
       };
@@ -146,7 +146,8 @@ class _MyScreenState extends State<MyScreen> {
           }
           final video = videoList[index];
           final title = video['title'] ?? 'No Title';
-          final thumbnailUrl = video['thumbnail'] ?? 'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg';
+          final thumbnailUrl = video['thumbnail'] ??
+              'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg';
           final videoId = video['video_id'] ?? '';
 
           return VideoListItem(

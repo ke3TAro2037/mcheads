@@ -19,25 +19,24 @@ void showSnackBar(BuildContext context, String message) {
   );
 }
 
-
 void _showFullScreenPlayer(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          color: Colors.white,
-          child: Center(
-            child: Text(
-              "Full Screen Player",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        color: Colors.white,
+        child: Center(
+          child: Text(
+            "Full Screen Player",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
 
 const Color inActiveIconColor = Color(0xFFB6B6B6);
 
@@ -96,8 +95,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     super.dispose();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,9 +139,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                       Text(
                         "Now Playing",
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                        ),
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),

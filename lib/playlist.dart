@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/main.dart';
@@ -25,8 +24,7 @@ class PlaylistScreen extends StatefulWidget {
         data: data,
       );
 
-      List<dynamic>
- playlistData = response.data['data'];
+      List<dynamic> playlistData = response.data['data'];
       print(playlistData);
 
       return response.data['data'];
@@ -230,8 +228,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     String newName = currentPlaylistName; // 入力フィールドの初期値を設定
     showDialog(
       context: context,
-      builder: (BuildContext context
-) {
+      builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('プレイリストの編集'),
           content: Column(
@@ -266,69 +263,70 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     );
   }
 
-    // ...existing code...
-  
+  // ...existing code...
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200.0), // AppBarの高さを200pxに設定
         child: AppBar(
-        title: Row(
-          children: [
-            Expanded(child: Text(currentPlaylistName)), // プレイリスト名を左寄せ
-          ],
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(widget.playlistThumbnail), // 画像URL
-              fit: BoxFit.cover,
+          title: Row(
+            children: [
+              Expanded(child: Text(currentPlaylistName)), // プレイリスト名を左寄せ
+            ],
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(widget.playlistThumbnail), // 画像URL
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
       ),
-      ),
       body: Column(
         children: [
           // 再生ボタンと編集・削除ボタンを追加
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.edit, color: Colors.black, size: 35),
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(15),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.black, size: 35),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  onPressed: () => _showEditPopup(context),
                 ),
-                onPressed: () => _showEditPopup(context),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // 再生ボタンの処理を追加
-                  print('Play button pressed');
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(20),
+                ElevatedButton(
+                  onPressed: () {
+                    // 再生ボタンの処理を追加
+                    print('Play button pressed');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(20),
+                  ),
+                  child: Icon(Icons.play_arrow, color: Colors.black, size: 50),
                 ),
-                child: Icon(Icons.play_arrow, color: Colors.black, size: 50),
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete, color: Colors.purple, size: 35),
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  padding: EdgeInsets.all(15),
+                IconButton(
+                  icon:
+                      const Icon(Icons.delete, color: Colors.purple, size: 35),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  onPressed: () {
+                    deletePlaylist();
+                  },
                 ),
-                onPressed: () {
-                  deletePlaylist();
-                },
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
           Expanded(
             child: ReorderableListView(
               // リストアイテムの順番を変更するためのコールバック
@@ -342,7 +340,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   //並び替え後のvideoIdIntsを更新する
                   final itemId = videoIdInts.removeAt(oldIndex);
                   videoIdInts.insert(newIndex, itemId);
-  
+
                   //並び替えられたvideoIdIntsをAPIに送る
                   updatePlaylistOrder(videoIdInts);
                 });
@@ -411,7 +409,6 @@ class VideoListItem extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
                 Text(
                   title,

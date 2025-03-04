@@ -66,20 +66,27 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 5.0,),
-              Text("別のアカウントにログイン",
+              const SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                "別のアカウントにログイン",
                 style: GoogleFonts.secularOne(
                   fontSize: 42.0,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF2F1500),
                 ),
               ),
-              const SizedBox(height: 5.0,),
+              const SizedBox(
+                height: 5.0,
+              ),
               const Text('既にアカウントをお持ちの方はこちらからログインしてください。',
                   style: TextStyle(
                     fontSize: 16,
                   )),
-              const SizedBox(height: 40.0,),
+              const SizedBox(
+                height: 40.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -100,7 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -122,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
@@ -134,18 +145,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: const Color(0xFF2F1500),
                     ),
                     child: const Center(
-                      child: Text('ログイン',
+                      child: Text(
+                        'ログイン',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0
-                        ),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
             ],
           ),
         ),

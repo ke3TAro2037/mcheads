@@ -4,7 +4,6 @@ import 'package:myapp/setting/login.dart';
 import 'update.dart';
 import 'login.dart';
 
-
 class SettingScreen extends StatefulWidget {
   @override
   _SettingScreenState createState() => _SettingScreenState();

@@ -22,7 +22,7 @@ String? extractYouTubeVideoId(String url) {
 
 class cutWebView extends StatefulWidget {
   const cutWebView({super.key, required this.url});
-  
+
   final String url;
 
   @override
@@ -31,10 +31,6 @@ class cutWebView extends StatefulWidget {
 
 class _cutWebViewState extends State<cutWebView> {
   late WebViewController _controller;
-
-  
-  
-  
 
   @override
   void initState() {

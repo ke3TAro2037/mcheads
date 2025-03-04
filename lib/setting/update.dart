@@ -12,7 +12,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
   String? initUsername;
   String? initEmail;
 
@@ -49,19 +48,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (data.isNotEmpty) {
       try {
         var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $globalToken'
-      };
-      var response = await Dio().request(
-        'http://api.made-by-free.com/mcheads/user.php',
-        options: Options(
-          method: 'PUT',
-          headers: headers, 
-        ),
-        data: data,
-      );
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $globalToken'
+        };
+        var response = await Dio().request(
+          'http://api.made-by-free.com/mcheads/user.php',
+          options: Options(
+            method: 'PUT',
+            headers: headers,
+          ),
+          data: data,
+        );
 
-      print(response);
+        print(response);
 
         if (response.statusCode == 200) {
           // Handle success
@@ -99,20 +98,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 5.0,),
-              Text("アカウント情報を更新",
+              const SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                "アカウント情報を更新",
                 style: GoogleFonts.secularOne(
                   fontSize: 42.0,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF2F1500),
                 ),
               ),
-              const SizedBox(height: 5.0,),
+              const SizedBox(
+                height: 5.0,
+              ),
               const Text('現在ログイン中のアカウント情報を更新します。',
                   style: TextStyle(
                     fontSize: 16,
                   )),
-              const SizedBox(height: 40.0,),
+              const SizedBox(
+                height: 40.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -133,7 +139,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -154,7 +162,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -176,7 +186,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
@@ -188,18 +200,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: const Color(0xFF2F1500),
                     ),
                     child: const Center(
-                      child: Text('保存',
+                      child: Text(
+                        '保存',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0
-                        ),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
             ],
           ),
         ),
