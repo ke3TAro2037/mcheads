@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+
+import 'package:myapp/home.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/video.dart';
 
 class MyScreen extends StatefulWidget {
   const MyScreen({super.key});
@@ -19,8 +22,8 @@ class _MyScreenState extends State<MyScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
     fetchPlaylistData();
+    _scrollController.addListener(_scrollListener);
   }
 
   @override
@@ -29,14 +32,8 @@ class _MyScreenState extends State<MyScreen> {
     super.dispose();
   }
 
-  void _scrollListener() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isLoading) {
-      _currentPage++;
-      fetchPlaylistData();
-    }
-  }
-
-  Future<void> fetchPlaylistData() async {
+  Future<void> fetchPlaylistData({int page = 1}) async {
+    if (_isLoading) return;
     setState(() {
       _isLoading = true;
     });
@@ -48,7 +45,7 @@ class _MyScreenState extends State<MyScreen> {
       };
       var data = {'fsdfasfsaf': 'fsdfsad', 'sdafasf': 'sfsaf'};
       var response = await Dio().request(
-        'http://api.made-by-free.com/mcheads/playlist.php?mode=draft&page=$_currentPage',
+        'http://api.made-by-free.com/mcheads/playlist.php?mode=draft&page=$page',
         options: Options(
           method: 'GET',
           headers: headers,
@@ -81,6 +78,7 @@ class _MyScreenState extends State<MyScreen> {
 
         setState(() {
           videoList.addAll(fetchedVideos);
+          _currentPage++;
         });
       } else {
         print('API request failed: ${response.statusCode}');
@@ -117,9 +115,17 @@ class _MyScreenState extends State<MyScreen> {
         'thumbnail':
             '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ?? 
                 'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg',
+        'video_id': videoData['video_id'].toString() ?? '',
       };
     } catch (e) {
       throw Exception('API request failed: $e');
+    }
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      fetchPlaylistData(page: _currentPage);
     }
   }
 
@@ -131,16 +137,30 @@ class _MyScreenState extends State<MyScreen> {
       ),
       body: ListView.builder(
         controller: _scrollController,
-        itemCount: videoList.length + (_isLoading ? 1 : 0),
+        itemCount: videoList.length + 1,
         itemBuilder: (context, index) {
           if (index == videoList.length) {
-            return Center(child: CircularProgressIndicator());
+            return _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : SizedBox.shrink();
           }
           final video = videoList[index];
+          final title = video['title'] ?? 'No Title';
+          final thumbnailUrl = video['thumbnail'] ?? 'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg';
+          final videoId = video['video_id'] ?? '';
+
           return VideoListItem(
             key: ValueKey(index), // ユニークなキーを指定
-            title: video['title']!,
-            thumbnailUrl: video['thumbnail']!,
+            title: title,
+            thumbnailUrl: thumbnailUrl,
+            onEdit: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VideoEditPage(videoId: videoId),
+                ),
+              );
+            },
           );
         },
       ),
@@ -151,11 +171,13 @@ class _MyScreenState extends State<MyScreen> {
 class VideoListItem extends StatelessWidget {
   final String title;
   final String thumbnailUrl;
+  final VoidCallback onEdit;
 
   const VideoListItem({
     super.key,
     required this.title,
     required this.thumbnailUrl,
+    required this.onEdit,
   });
 
   @override
@@ -193,6 +215,12 @@ class VideoListItem extends StatelessWidget {
                 const SizedBox(height: 8),
               ],
             ),
+          ),
+
+          // 編集ボタン
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: onEdit,
           ),
         ],
       ),

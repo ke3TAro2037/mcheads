@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'package:myapp/home.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/video.dart';
 
 class TrendScreen extends StatefulWidget {
   const TrendScreen({super.key});
@@ -112,8 +113,9 @@ class _TrendScreenState extends State<TrendScreen> {
       return {
         'title': videoData['video_name'] ?? 'No Title',
         'thumbnail':
-            '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ?? 
+            '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ??
                 'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg',
+        'video_id': videoData['video_id'].toString() ?? '',
       };
     } catch (e) {
       throw Exception('API request failed: $e');
@@ -133,22 +135,56 @@ class _TrendScreenState extends State<TrendScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false, // 戻るボタンを消す
       ),
-      body: ListView.builder(
-        controller: _scrollController,
-        itemCount: videoList.length + 1,
-        itemBuilder: (context, index) {
-          if (index == videoList.length) {
-            return _isLoading
-                ? Center(child: CircularProgressIndicator())
-                : SizedBox.shrink();
-          }
-          final video = videoList[index];
-          return VideoListItem(
-            key: ValueKey(index), // ユニークなキーを指定
-            title: video['title']!,
-            thumbnailUrl: video['thumbnail']!,
-          );
-        },
+      body: Column(
+        children: [
+          // ページの説明欄を追加
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'トレンドの試合を表示しています。気になる試合は右端のボタンを押すことで「保存済み」にコピーできます。',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // 動画リスト
+          Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: videoList.length + 1,
+              itemBuilder: (context, index) {
+                if (index == videoList.length) {
+                  return _isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : SizedBox.shrink();
+                }
+                final video = videoList[index];
+                final title = video['title'] ?? 'No Title';
+                final thumbnailUrl = video['thumbnail'] ??
+                    'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg';
+                final videoId = video['video_id'] ?? '';
+
+                return VideoListItem(
+                  key: ValueKey(index), // ユニークなキーを指定
+                  title: title,
+                  thumbnailUrl: thumbnailUrl,
+                  videoId: videoId,
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -157,12 +193,43 @@ class _TrendScreenState extends State<TrendScreen> {
 class VideoListItem extends StatelessWidget {
   final String title;
   final String thumbnailUrl;
+  final String videoId;
 
   const VideoListItem({
     super.key,
     required this.title,
     required this.thumbnailUrl,
+    required this.videoId,
   });
+
+  Future<void> importVideo(BuildContext context) async {
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $globalToken'
+      };
+      var response = await Dio().post(
+        'http://api.made-by-free.com/mcheads/video.php?mode=import&video_id=$videoId',
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('動画が正常にインポートされました')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('動画のインポートに失敗しました')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('API request failed: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,6 +266,12 @@ class VideoListItem extends StatelessWidget {
                 const SizedBox(height: 8),
               ],
             ),
+          ),
+
+          // インポートボタン
+          IconButton(
+            icon: Icon(Icons.file_download),
+            onPressed: () => importVideo(context),
           ),
         ],
       ),

@@ -107,7 +107,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         children: <Widget>[
           HomeScreen(),
           TabBarApp(),
-          VideoEditPage(),
+          YoutubeWebView(),
         ],
       ),
       backgroundColor: Colors.white,

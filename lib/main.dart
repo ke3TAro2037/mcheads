@@ -9,8 +9,8 @@ const storage = FlutterSecureStorage();
 String? globalToken;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+  //WidgetsFlutterBinding.ensureInitialized();
+  ///MobileAds.instance.initialize();
 
   //正式リリース時は、こちらを無効化する
   storage.write(key: 'token', value: 'MBFSRV');

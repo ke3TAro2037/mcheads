@@ -34,25 +34,19 @@ class TabBarExample extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('保存された試合'),
-          actions: [
-    IconButton(
-      icon: const Icon(Icons.settings),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SettingScreen()),
-        );
-      },
-    ),
-  ],
-          bottom: const TabBar(
+          bottom: const PreferredSize(
+    preferredSize: Size.fromHeight(48), // 高さを明示的に指定
+    child: TabBar(
+  labelPadding: EdgeInsets.all(0),
             dividerColor: Colors.transparent,
             tabs: <Widget>[
-              Tab(text: 'お気に入り', icon: Icon(Icons.folder)),
+              Tab(text: '保存済み', icon: Icon(Icons.folder)),
               Tab(text: 'トレンド', icon: Icon(Icons.explore)),
             ],
           ),
         ),
+        )
+      ,
         body: const TabBarView(
           children: <Widget>[
             MyScreen(),

@@ -1,13 +1,66 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/main.dart';
 
-class VideoEditPage extends StatelessWidget {
-  final String thumbnailUrl = 'https://img.youtube.com/vi/FmeJHifdXgE/default.jpg';
+class VideoEditPage extends StatefulWidget {
+  final String videoId;
+
+  VideoEditPage({super.key, required this.videoId});
+
+  @override
+  _VideoEditPageState createState() => _VideoEditPageState();
+}
+
+class _VideoEditPageState extends State<VideoEditPage> {
+  String thumbnailUrl = 'https://img.youtube.com/vi/FmeJHifdXgE/default.jpg';
+  String videoTitle = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchVideoDetails(int.parse(widget.videoId)).then((details) {
+      setState(() {
+        thumbnailUrl = details?['thumbnail'] ?? thumbnailUrl;
+        videoTitle = details?['title'] ?? videoTitle;
+      });
+    });
+  }
+
+  Future<void> deleteVideo() async {
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $globalToken'
+      };
+      var response = await Dio().delete(
+        'http://api.made-by-free.com/mcheads/video.php',
+        data: {'video_id': widget.videoId},
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('動画が削除されました')),
+        );
+        Navigator.pop(context);
+      } else {
+        throw Exception('Failed to delete video');
+      }
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('動画の削除に失敗しました: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('動画編集ページ'),
+        title: Text(videoTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -96,9 +149,7 @@ class VideoEditPage extends StatelessWidget {
               SizedBox(height: 16),
               // 動画を削除するボタン
               ElevatedButton.icon(
-                onPressed: () {
-                  // 動画を削除する処理
-                },
+                onPressed: deleteVideo,
                 icon: Icon(Icons.delete),
                 label: Text('動画を削除'),
                 style: ElevatedButton.styleFrom(
@@ -164,5 +215,31 @@ class ImportLyricsPage extends StatelessWidget {
   }
 }
 
+Future<Map<String, String>?> fetchVideoDetails(int videoId) async {
+  try {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $globalToken'
+    };
+    var response = await Dio().request(
+      'http://api.made-by-free.com/mcheads/video.php?video_id=$videoId',
+      options: Options(
+        method: 'GET',
+        headers: headers,
+      ),
+    );
 
+    print(response.data);
+    final Map<String, dynamic> videoData = response.data['data'];
 
+    return {
+      'title': videoData['video_name'] ?? 'No Title',
+      'thumbnail':
+          '${'https://img.youtube.com/vi/' + videoData['youtube_video_id']}/default.jpg' ??
+              'https://img.youtube.com/vi/Bz43NXEYjc8/default.jpg',
+      'video_id': videoData['video_id'].toString() ?? '',
+    };
+  } catch (e) {
+    throw Exception('API request failed: $e');
+  }
+}
